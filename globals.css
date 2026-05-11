@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+
+/* ─── Tailwind v4 Custom Theme Tokens ─── */
+@theme {
+  --max-w-content: 1320px;
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Colors */
+  --color-background: #0D0B09;
+  --color-surface: #141210;
+  --color-gold: #C9A96E;
+  --color-gold-muted: #8A6F47;
+  --color-ivory: #F5F0E8;
+  --color-oak: #6B5B45;
+
+  /* Keyframe animations */
+  --animate-whatsapp-bounce: whatsappBounce 3s ease-in-out infinite;
+  --animate-scroll-line: scrollLine 1.5s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+/* ─── Brand Tokens ─── */
+:root {
+  --bg: #0d0b09;
+  --surface: #141210;
+  --gold: #c9a96e;
+  --gold-muted: #8a6f47;
+  --ivory: #f5f0e8;
+  --ivory-dim: rgba(245, 240, 232, 0.6);
+  --ivory-ghost: rgba(245, 240, 232, 0.25);
+  --oak: #6b5b45;
+}
+
+/* ─── Reset ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Base ─── */
+body {
+  background-color: var(--bg);
+  color: var(--ivory);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Custom cursor: hide native ─── */
+* {
+  cursor: none !important;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 110, 0.4);
+  border-radius: 2px;
+}
+
+/* ─── Text Selection ─── */
+::selection {
+  background: rgba(201, 169, 110, 0.25);
+  color: var(--ivory);
+}
+
+/* ─── Skip to content (a11y) ─── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--gold);
+  color: var(--bg);
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ─── Focus rings ─── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ─── Grain Overlay ─── */
+.grain-overlay::before {
+  content: "";
+  position: fixed;
+  inset: -200%;
+  width: 400%;
+  height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain 8s steps(10) infinite;
+}
+
+/* ─── Keyframes ─── */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -15%); }
+  50% { transform: translate(12%, 9%); }
+  70% { transform: translate(9%, 4%); }
+  90% { transform: translate(-1%, 7%); }
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes whatsappBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ─── Utility Classes ─── */
+.scroll-line-anim {
+  animation: scrollLine 1.5s ease-in-out infinite;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Mobile Scroll-Snap Gallery ─── */
+.mobile-frames-gallery {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  height: 100svh;
+}
+.mobile-frames-gallery::-webkit-scrollbar {
+  display: none;
+}
+.mobile-frame-item {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  position: relative;
+  height: 100svh;
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .scroll-line-anim {
+    animation: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
